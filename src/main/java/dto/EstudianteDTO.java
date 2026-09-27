@@ -1,5 +1,9 @@
 package dto;
 
+/**
+ * Vista de lectura de un estudiante. Los repositorios JPQL lo construyen para
+ * devolver datos sin exponer la entidad JPA ni sus relaciones.
+ */
 public class EstudianteDTO {
 
     private int dni;
@@ -13,6 +17,7 @@ public class EstudianteDTO {
     public EstudianteDTO(int dni, String nombre, String apellido,
                          int edad, String genero,
                          String ciudad, int lu) {
+        // El orden de parametros coincide con las expresiones "new EstudianteDTO" de JPQL.
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -22,6 +27,7 @@ public class EstudianteDTO {
         this.lu = lu;
     }
 
+    // Solo hay getters porque estos DTO se usan como resultados de consulta.
     public int getDni() {
         return dni;
     }

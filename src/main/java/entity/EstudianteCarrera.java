@@ -2,17 +2,23 @@ package entity;
 
 import javax.persistence.*;
 
+/**
+ * Entidad intermedia de la tabla estudiante_carrera. Resuelve la relacion
+ * muchos-a-muchos y guarda los datos propios de cada matricula.
+ */
 @Entity
 @Table(name = "estudiante_carrera")
 public class EstudianteCarrera {
 
-    @Id
+    @Id // Identifica una matricula concreta.
     private int id;
 
+    // Muchas matriculas pueden pertenecer a un mismo estudiante.
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_estudiante", nullable = false)
     private Estudiante estudiante;
 
+    // Muchas matriculas pueden pertenecer a una misma carrera.
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_carrera", nullable = false)
     private Carrera carrera;
@@ -20,6 +26,7 @@ public class EstudianteCarrera {
     @Column(nullable = false)
     private int inscripcion;
 
+    // Integer permite null cuando aun no existe anio de graduacion.
     @Column
     private Integer graduacion;
 
@@ -38,6 +45,7 @@ public class EstudianteCarrera {
                              Integer graduacion,
                              int antiguedad) {
 
+        // Se reciben las entidades relacionadas porque JPA debe persistir las claves foraneas.
         this.id = id;
         this.estudiante = estudiante;
         this.carrera = carrera;
@@ -46,6 +54,7 @@ public class EstudianteCarrera {
         this.antiguedad = antiguedad;
     }
 
+    // Getters y setters son usados por el resto de las capas y por JPA.
     public int getId() {
         return id;
     }

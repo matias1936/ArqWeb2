@@ -8,8 +8,10 @@ import repository.EstudianteCarreraRepository;
 
 import java.util.List;
 
-public class EstudianteCarreraRepositoryImpl
-        implements EstudianteCarreraRepository {
+/**
+ * Implementacion JPA de matriculas y de la consulta del punto 2.g.
+ */
+public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraRepository {
 
     private final EntityManager em;
 
@@ -19,7 +21,7 @@ public class EstudianteCarreraRepositoryImpl
 
     @Override
     public void insertar(EstudianteCarrera estudianteCarrera) {
-
+        // Al persistir la matricula, JPA guarda las referencias como claves foraneas.
         EntityTransaction tx = em.getTransaction();
 
         try {
@@ -41,6 +43,7 @@ public class EstudianteCarreraRepositoryImpl
 
     @Override
     public int siguienteId() {
+        // COALESCE cambia el resultado vacio por 0 para que la primera matricula reciba ID 1.
         Number maximo = em.createQuery(
                 "SELECT COALESCE(MAX(ec.id), 0) FROM EstudianteCarrera ec", Number.class
         ).getSingleResult();
@@ -49,12 +52,13 @@ public class EstudianteCarreraRepositoryImpl
 
     @Override
     public void matricularEstudiante(EstudianteCarrera estudianteCarrera) {
+        // El servicio ya valido las referencias; este metodo solo persiste.
         insertar(estudianteCarrera);
     }
 
     @Override
     public List<EstudianteDTO> recuperarEstudiantesPorCarreraYCiudad(int idCarrera, String ciudad) {
-
+        // Se parte de la matricula para unir carrera y estudiante en una sola consulta JPQL.
         return em.createQuery("""
                 SELECT new dto.EstudianteDTO(
                     e.dni,

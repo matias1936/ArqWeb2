@@ -1,5 +1,9 @@
 package dto;
 
+/**
+ * Vista de una matricula que usa IDs en lugar de transportar las entidades
+ * Estudiante y Carrera completas.
+ */
 public class EstudianteCarreraDTO {
 
     private int id;
@@ -16,6 +20,7 @@ public class EstudianteCarreraDTO {
                                 Integer graduacion,
                                 int antiguedad) {
 
+        // Los valores describen la relacion y sus datos propios: anios y antiguedad.
         this.id = id;
         this.dniEstudiante = dniEstudiante;
         this.idCarrera = idCarrera;
@@ -24,6 +29,7 @@ public class EstudianteCarreraDTO {
         this.antiguedad = antiguedad;
     }
 
+    // Getters y setters facilitan transportar la informacion sin involucrar a JPA.
     public int getId() {
         return id;
     }

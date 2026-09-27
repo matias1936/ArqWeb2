@@ -7,11 +7,21 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.function.BiConsumer;
 
+/**
+ * Utilidad interna para no repetir la lectura y validacion basica de los CSV.
+ * Solo la capa service puede usarla porque no tiene modificador public.
+ */
 final class CsvReader {
 
     private CsvReader() {
+        // Impide crear instancias: todos los metodos de esta utilidad son estaticos.
     }
 
+    /**
+     * Lee un CSV de resources/csv y entrega cada fila al servicio que la procesa.
+     * @param columnas cantidad esperada de columnas para detectar archivos mal formados.
+     * @param procesarFila recibe el numero de linea y sus valores separados por coma.
+     */
     static void leer(String nombre, int columnas, BiConsumer<Integer, String[]> procesarFila) {
         String ruta = "/csv/" + nombre;
         InputStream recurso = CsvReader.class.getResourceAsStream(ruta);
@@ -21,7 +31,7 @@ final class CsvReader {
 
         try (BufferedReader lector = new BufferedReader(
                 new InputStreamReader(recurso, StandardCharsets.UTF_8))) {
-            lector.readLine(); // Encabezado
+            lector.readLine(); // Se descarta el encabezado porque no es un registro.
             String linea;
             int numeroLinea = 1;
             while ((linea = lector.readLine()) != null) {
@@ -29,6 +39,7 @@ final class CsvReader {
                 if (linea.isBlank()) {
                     continue;
                 }
+                // El -1 conserva columnas vacias, por ejemplo una graduacion ausente.
                 String[] valores = linea.split(",", -1);
                 if (valores.length != columnas) {
                     throw new IllegalArgumentException(
