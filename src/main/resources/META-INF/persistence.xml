@@ -5,9 +5,9 @@
              version="2.2">
     <persistence-unit name="arqweb2" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>entities.Estudiante</class>
-        <class>entities.Carrera</class>
-        <class>entities.EstudianteCarrera</class>
+        <class>entity.Estudiante</class>
+        <class>entity.Carrera</class>
+        <class>entity.EstudianteCarrera</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

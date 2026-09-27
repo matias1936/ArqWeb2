@@ -1,7 +1,7 @@
 package repositoryImpl;
 
 import dto.EstudianteDTO;
-import entities.EstudianteCarrera;
+import entity.EstudianteCarrera;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import repository.EstudianteCarreraRepository;
@@ -32,6 +32,19 @@ public class EstudianteCarreraRepositoryImpl
             }
             throw e;
         }
+    }
+
+    @Override
+    public EstudianteCarrera buscarPorId(int id) {
+        return em.find(EstudianteCarrera.class, id);
+    }
+
+    @Override
+    public int siguienteId() {
+        Number maximo = em.createQuery(
+                "SELECT COALESCE(MAX(ec.id), 0) FROM EstudianteCarrera ec", Number.class
+        ).getSingleResult();
+        return maximo.intValue() + 1;
     }
 
     @Override

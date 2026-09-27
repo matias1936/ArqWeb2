@@ -1,7 +1,7 @@
 package repository;
 
 import dto.EstudianteDTO;
-import entities.Estudiante;
+import entity.Estudiante;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package repositoryImpl;
 
 import dto.EstudianteDTO;
-import entities.Estudiante;
+import entity.Estudiante;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import repository.EstudianteRepository;

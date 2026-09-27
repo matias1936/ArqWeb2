@@ -1,6 +1,6 @@
 package repository;
 
-import entities.Carrera;
+import entity.Carrera;
 import dto.CarreraInscriptosDTO;
 import dto.ReporteCarreraDTO;
 
