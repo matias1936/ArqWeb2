@@ -1,7 +1,7 @@
 package entities;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name="carrera")

@@ -3,8 +3,8 @@ package repositoryImpl;
 import dto.CarreraInscriptosDTO;
 import dto.ReporteCarreraDTO;
 import entities.Carrera;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import repository.CarreraRepository;
 
 import java.util.List;
