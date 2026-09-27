@@ -1,9 +1,21 @@
 package repository;
 
-import ...
+import dto.EstudianteDTO;
+import entities.EstudianteCarrera;
+
+import java.util.List;
 
 public interface EstudianteCarreraRepository {
-    List<EstudiantesCarrerasDTO> carreras_de_estudiante(int dni_estudiante);
-    List<CarrerasDTO> buscarCarrerasConInscriptos ();//Punto 2-f? Con ordenamiento por cantidad de inscriptos
-    List<CarrerasDTO> buscarEstudiantesPorCarreraYCiudad (String carrera, String ciudad); //Punto 2-g?
+
+    // Para cargar estudianteCarrera.csv
+    void insertar(EstudianteCarrera estudianteCarrera);
+
+    // Punto 2.b
+    void matricularEstudiante(EstudianteCarrera estudianteCarrera);
+
+    // Punto 2.g
+    List<EstudianteDTO> recuperarEstudiantesPorCarreraYCiudad(
+            int idCarrera,
+            String ciudad
+    );
 }

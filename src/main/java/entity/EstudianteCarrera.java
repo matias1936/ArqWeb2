@@ -3,31 +3,41 @@ package entities;
 import jakarta.persistence.*;
 
 @Entity
-Table(name="estudiante_carrera")
-public class EstudianteCarrera{
+@Table(name = "estudiante_carrera")
+public class EstudianteCarrera {
+
     @Id
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_estudiante")
-    private Estudiante estudiante; //Acá se crea la FK real
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_estudiante", nullable = false)
+    private Estudiante estudiante;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_carrera")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_carrera", nullable = false)
     private Carrera carrera;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private int inscripcion;
 
-    @Column(nullable=true)
+    @Column
     private Integer graduacion;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private int antiguedad;
 
-    protected EstudianteCarrera(){} //Constructor vacío requerido por JPA para instanciar
 
-    public EstudianteCarrera(int id, Estudiante estudiante, Carrera carrera, int inscripcion, Integer graduacion, int antiguedad) {
+    // Constructor vacío requerido por JPA
+    protected EstudianteCarrera() {
+    }
+
+    public EstudianteCarrera(int id,
+                             Estudiante estudiante,
+                             Carrera carrera,
+                             int inscripcion,
+                             Integer graduacion,
+                             int antiguedad) {
+
         this.id = id;
         this.estudiante = estudiante;
         this.carrera = carrera;
@@ -84,12 +94,10 @@ public class EstudianteCarrera{
         this.antiguedad = antiguedad;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "EstudianteCarrera{" +
                 "id=" + id +
-                ", estudiante=" + estudiante +
-                ", carrera=" + carrera +
                 ", inscripcion=" + inscripcion +
                 ", graduacion=" + graduacion +
                 ", antiguedad=" + antiguedad +

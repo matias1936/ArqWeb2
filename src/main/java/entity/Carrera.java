@@ -1,21 +1,18 @@
 package entities;
-
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name="carrera")
 public class Carrera {
-    @Id
-    private int id_carrera;
+    @Id private int id_carrera;
 
-    @Column(nullable=false)
-    private String carrera;
+    @Column(nullable=false) private String carrera;
 
-    @Column(nullable=false)
-    private int duracion;
+    @Column(nullable=false) private int duracion;
 
-    @OneToMany(mappedBy = "carrera")
-    private List<EstudianteCarrera> estudiantes = new ArrayList<>();
+    @OneToMany(mappedBy = "carrera") private List<EstudianteCarrera> estudiantes = new ArrayList<>();
 
     public Carrera (int id, String nombreCarrera, int duracion) {
         this.id_carrera = id;
@@ -23,7 +20,7 @@ public class Carrera {
         this.duracion = duracion;
     }
 
-    protected Carrera( {}) //Constructor vacío requerido por JPA para instanciar
+    protected Carrera( ) {}//Constructor vacío requerido por JPA para instanciar
 
     public int getId_carrera() {
         return id_carrera;

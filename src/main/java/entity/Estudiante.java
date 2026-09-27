@@ -1,38 +1,44 @@
 package entities;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name="estudiante")
+@Table(name = "estudiante")
 public class Estudiante {
-    @Id
-    private Long dni;
 
-    @Collumn(nullable=false)
+    @Id
+    private int dni;
+
+    @Column(nullable = false)
     private String nombre;
 
-    @Collumn(nullable=false)
+    @Column(nullable = false)
     private String apellido;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private int edad;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String genero;
 
-    @Column
+    @Column(nullable = false)
     private String ciudad;
 
-    @Column(unique=true)
+    @Column(name = "LU", unique = true, nullable = false)
     private int LU;
 
     @OneToMany(mappedBy = "estudiante")
     private List<EstudianteCarrera> carreras = new ArrayList<>();
 
-    protected Estudiante(){} //Constructor vacío requerido por JPA para instanciar
 
-    public Estudiante(int dni, String nombre, String apellido, String genero, int edad, String ciudad, int LU) {
+    // Constructor vacío requerido por JPA
+    protected Estudiante() {
+    }
+
+    public Estudiante(int dni, String nombre, String apellido,
+                      String genero, int edad, String ciudad, int LU) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -41,6 +47,7 @@ public class Estudiante {
         this.ciudad = ciudad;
         this.LU = LU;
     }
+
 
     public int getDni() {
         return dni;
@@ -98,9 +105,17 @@ public class Estudiante {
         this.LU = LU;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
-        return "Estudiantes{" +
+    public List<EstudianteCarrera> getCarreras() {
+        return carreras;
+    }
+
+    public void setCarreras(List<EstudianteCarrera> carreras) {
+        this.carreras = carreras;
+    }
+
+    @Override
+    public String toString() {
+        return "Estudiante{" +
                 "dni=" + dni +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
@@ -108,10 +123,6 @@ public class Estudiante {
                 ", genero='" + genero + '\'' +
                 ", ciudad='" + ciudad + '\'' +
                 ", LU=" + LU +
-                ", carreras=" + carreras +
                 '}';
     }
 }
-
-
-

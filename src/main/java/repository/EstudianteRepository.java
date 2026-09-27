@@ -1,12 +1,27 @@
-package ...;
+package repository;
 
 import dto.EstudianteDTO;
 import entities.Estudiante;
 
+import java.util.List;
+
 public interface EstudianteRepository {
-    void insertDesdeCSV(String rutaArchivo);
-    List<Estudiante> buscarTodos(); //Criterio de ordenamiento necesario 2-c
-    List<Estudiante> buscarPorUL(int numLibreta); // Punto 2-d
-    List<Estudiante> buscarPorGenero(); //Punto 2-e
-    //Bajo que criterio se usa la Clase o el DTO?
+
+    // Para cargar estudiantes.csv
+    void insertar(Estudiante estudiante);
+
+    // Punto 2.a
+    void darAltaEstudiante(Estudiante estudiante);
+
+    // Punto 2.c
+    List<EstudianteDTO> recuperarTodosOrdenados();
+
+    // Punto 2.d
+    EstudianteDTO recuperarPorLU(int lu);
+
+    // Punto 2.e
+    List<EstudianteDTO> recuperarPorGenero(String genero);
+
+    // Útil para el punto 2.b al momento de matricular
+    Estudiante buscarPorDni(int dni);
 }
