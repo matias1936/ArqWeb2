@@ -38,4 +38,5 @@ public class CarreraInscriptosDTO {
                 ", cantidadInscriptos=" + cantidadInscriptos +
                 '}';
     }
+
 }

@@ -45,7 +45,8 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
 
     @Override
     public List<EstudianteDTO> recuperarTodosOrdenados() {
-        // La proyeccion "new dto.EstudianteDTO" devuelve datos de lectura, no entidades administradas.
+        // La proyeccion "new dto.EstudianteDTO" devuelve datos de lectura, no entidades
+        // administradas.
         return em.createQuery("""
                 SELECT new dto.EstudianteDTO(
                     e.dni,
@@ -65,7 +66,7 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     @Override
     public EstudianteDTO recuperarPorLU(int lu) {
         // :lu es un parametro JPQL; evita concatenar valores dentro de la consulta.
-        return em.createQuery("""
+        List<EstudianteDTO> resultado = em.createQuery("""
                 SELECT new dto.EstudianteDTO(
                     e.dni,
                     e.nombre,
@@ -79,7 +80,13 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
                 WHERE e.LU = :lu
                 """, EstudianteDTO.class)
                 .setParameter("lu", lu)
-                .getSingleResult();
+                .getResultList();
+
+        if (resultado.isEmpty()) {
+            return null;
+        }
+
+        return resultado.get(0);
     }
 
     @Override

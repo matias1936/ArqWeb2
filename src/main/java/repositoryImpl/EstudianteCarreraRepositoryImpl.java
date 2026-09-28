@@ -42,11 +42,26 @@ public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraReposit
     }
 
     @Override
+    public boolean existeMatricula(int dni, int idCarrera) {
+        Long cantidad = em.createQuery("""
+                SELECT COUNT(ec)
+                FROM EstudianteCarrera ec
+                WHERE ec.estudiante.dni = :dni
+                AND ec.carrera.id_carrera = :idCarrera
+                """, Long.class)
+                .setParameter("dni", dni)
+                .setParameter("idCarrera", idCarrera)
+                .getSingleResult();
+
+        return cantidad > 0;
+    }
+
+    @Override
     public int siguienteId() {
-        // COALESCE cambia el resultado vacio por 0 para que la primera matricula reciba ID 1.
+        // COALESCE cambia el resultado vacio por 0 para que la primera matricula reciba
+        // ID 1.
         Number maximo = em.createQuery(
-                "SELECT COALESCE(MAX(ec.id), 0) FROM EstudianteCarrera ec", Number.class
-        ).getSingleResult();
+                "SELECT COALESCE(MAX(ec.id), 0) FROM EstudianteCarrera ec", Number.class).getSingleResult();
         return maximo.intValue() + 1;
     }
 
@@ -58,7 +73,8 @@ public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraReposit
 
     @Override
     public List<EstudianteDTO> recuperarEstudiantesPorCarreraYCiudad(int idCarrera, String ciudad) {
-        // Se parte de la matricula para unir carrera y estudiante en una sola consulta JPQL.
+        // Se parte de la matricula para unir carrera y estudiante en una sola consulta
+        // JPQL.
         return em.createQuery("""
                 SELECT new dto.EstudianteDTO(
                     e.dni,

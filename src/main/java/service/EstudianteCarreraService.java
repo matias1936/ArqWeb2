@@ -1,5 +1,7 @@
 package service;
 
+import dto.EstudianteDTO;
+import java.util.List;
 import entity.Carrera;
 import entity.Estudiante;
 import entity.EstudianteCarrera;
@@ -18,8 +20,8 @@ public class EstudianteCarreraService {
     private final CarreraRepository carreras;
 
     public EstudianteCarreraService(EstudianteCarreraRepository matriculas,
-                                   EstudianteRepository estudiantes,
-                                   CarreraRepository carreras) {
+            EstudianteRepository estudiantes,
+            CarreraRepository carreras) {
         this.matriculas = matriculas;
         this.estudiantes = estudiantes;
         this.carreras = carreras;
@@ -27,7 +29,7 @@ public class EstudianteCarreraService {
 
     public int cargarDesdeCSV() {
         // Las carreras y estudiantes deben cargarse antes de leer este CSV.
-        int[] cargadas = {0};
+        int[] cargadas = { 0 };
         CsvReader.leer("estudianteCarrera.csv", 6, (linea, valores) -> {
             // El ID identifica de forma unica cada relacion estudiante-carrera.
             int id = Integer.parseInt(valores[0]);
@@ -48,8 +50,7 @@ public class EstudianteCarreraService {
             matriculas.insertar(new EstudianteCarrera(
                     id, estudiante, carrera,
                     Integer.parseInt(valores[3]), Integer.parseInt(valores[4]),
-                    Integer.parseInt(valores[5])
-            ));
+                    Integer.parseInt(valores[5])));
             cargadas[0]++;
         });
         return cargadas[0];
@@ -65,10 +66,19 @@ public class EstudianteCarreraService {
         if (carrera == null) {
             throw new IllegalArgumentException("No existe una carrera con ese ID");
         }
+        if (matriculas.existeMatricula(dni, idCarrera)) {
+            throw new IllegalArgumentException(
+                    "El estudiante ya está matriculado en esa carrera");
+        }
         // Una matricula nueva no tiene graduacion y comienza con antiguedad cero.
         EstudianteCarrera matricula = new EstudianteCarrera(
-                matriculas.siguienteId(), estudiante, carrera, anioInscripcion, null, 0
-        );
+                matriculas.siguienteId(), estudiante, carrera, anioInscripcion, null, 0);
         matriculas.matricularEstudiante(matricula);
+    }
+
+    public List<EstudianteDTO> recuperarEstudiantesPorCarreraYCiudad(
+            int idCarrera, String ciudad) {
+
+        return matriculas.recuperarEstudiantesPorCarreraYCiudad(idCarrera, ciudad);
     }
 }

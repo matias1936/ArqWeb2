@@ -13,7 +13,7 @@ public class ReporteCarreraDTO {
     private final Long cantidadEgresados;
 
     public ReporteCarreraDTO(int idCarrera, String carrera, int anio,
-                             Long cantidadInscriptos, Long cantidadEgresados) {
+            Long cantidadInscriptos, Long cantidadEgresados) {
         // El orden coincide con el armado final del reporte en CarreraRepositoryImpl.
         this.idCarrera = idCarrera;
         this.carrera = carrera;
@@ -45,12 +45,9 @@ public class ReporteCarreraDTO {
 
     @Override
     public String toString() {
-        return "ReporteCarreraDTO{" +
-                "idCarrera=" + idCarrera +
-                ", carrera='" + carrera + '\'' +
-                ", anio=" + anio +
-                ", cantidadInscriptos=" + cantidadInscriptos +
-                ", cantidadEgresados=" + cantidadEgresados +
-                '}';
+        return "Carrera: " + carrera
+                + " | Año: " + anio
+                + " | Inscriptos: " + cantidadInscriptos
+                + " | Egresados: " + cantidadEgresados;
     }
 }

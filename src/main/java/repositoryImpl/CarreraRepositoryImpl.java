@@ -67,12 +67,12 @@ public class CarreraRepositoryImpl implements CarreraRepository {
 
     @Override
     public List<ReporteCarreraDTO> generarReporteCarreras() {
-        // La clave compuesta permite reunir, en una sola fila, ambos conteos de una carrera y un anio.
+        // La clave compuesta permite reunir, en una sola fila, ambos conteos de una
+        // carrera y un anio.
         Map<ReporteKey, long[]> totalesPorCarreraYAnio = new TreeMap<>(
                 Comparator.comparing(ReporteKey::carrera)
                         .thenComparingInt(ReporteKey::anio)
-                        .thenComparingInt(ReporteKey::idCarrera)
-        );
+                        .thenComparingInt(ReporteKey::idCarrera));
 
         // Primera consulta JPQL: los anios se toman de la fecha de inscripcion.
         List<Object[]> inscriptos = em.createQuery("""
@@ -83,21 +83,22 @@ public class CarreraRepositoryImpl implements CarreraRepository {
                 """, Object[].class).getResultList();
 
         for (Object[] fila : inscriptos) {
-            // Object[] contiene, por orden, ID, nombre, anio y cantidad seleccionados por JPQL.
+            // Object[] contiene, por orden, ID, nombre, anio y cantidad seleccionados por
+            // JPQL.
             ReporteKey clave = new ReporteKey(
                     ((Number) fila[0]).intValue(),
                     (String) fila[1],
-                    ((Number) fila[2]).intValue()
-            );
+                    ((Number) fila[2]).intValue());
             totalesPorCarreraYAnio
                     .computeIfAbsent(clave, ignorado -> new long[2])[0] = ((Number) fila[3]).longValue();
         }
 
-        // Segunda consulta JPQL: 0 y null representan que no existe una graduacion registrada.
+        // Segunda consulta JPQL: 0 y null representan que no existe una graduacion
+        // registrada.
         List<Object[]> egresados = em.createQuery("""
                 SELECT c.id_carrera, c.carrera, ec.graduacion, COUNT(ec)
                 FROM Carrera c
-                JOIN c.estudiantes ec
+                LEFT JOIN c.estudiantes ec
                 WHERE ec.graduacion IS NOT NULL AND ec.graduacion <> 0
                 GROUP BY c.id_carrera, c.carrera, ec.graduacion
                 """, Object[].class).getResultList();
@@ -106,25 +107,26 @@ public class CarreraRepositoryImpl implements CarreraRepository {
             ReporteKey clave = new ReporteKey(
                     ((Number) fila[0]).intValue(),
                     (String) fila[1],
-                    ((Number) fila[2]).intValue()
-            );
+                    ((Number) fila[2]).intValue());
             totalesPorCarreraYAnio
                     .computeIfAbsent(clave, ignorado -> new long[2])[1] = ((Number) fila[3]).longValue();
         }
 
-        // TreeMap ya ordeno por carrera y anio; se transforma cada acumulado en el DTO de salida.
+        // TreeMap ya ordeno por carrera y anio; se transforma cada acumulado en el DTO
+        // de salida.
         return totalesPorCarreraYAnio.entrySet().stream()
                 .map(entrada -> new ReporteCarreraDTO(
                         entrada.getKey().idCarrera(),
                         entrada.getKey().carrera(),
                         entrada.getKey().anio(),
                         entrada.getValue()[0],
-                        entrada.getValue()[1]
-                ))
+                        entrada.getValue()[1]))
                 .toList();
     }
 
-    /** Clave inmutable usada solo para combinar los resultados de ambas consultas. */
+    /**
+     * Clave inmutable usada solo para combinar los resultados de ambas consultas.
+     */
     private record ReporteKey(int idCarrera, String carrera, int anio) {
     }
 }

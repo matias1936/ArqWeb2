@@ -15,9 +15,10 @@ public class EstudianteDTO {
     private int lu;
 
     public EstudianteDTO(int dni, String nombre, String apellido,
-                         int edad, String genero,
-                         String ciudad, int lu) {
-        // El orden de parametros coincide con las expresiones "new EstudianteDTO" de JPQL.
+            int edad, String genero,
+            String ciudad, int lu) {
+        // El orden de parametros coincide con las expresiones "new EstudianteDTO" de
+        // JPQL.
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -54,5 +55,18 @@ public class EstudianteDTO {
 
     public int getLu() {
         return lu;
+    }
+
+    @Override
+
+    public String toString() {
+        return "DNI: " + dni
+                + " | Nombre: " + nombre
+                + " | Apellido: " + apellido
+                + " | Edad: " + edad
+                + " | Género: " + genero
+                + " | Ciudad: " + ciudad
+                + " | LU: " + lu;
+
     }
 }

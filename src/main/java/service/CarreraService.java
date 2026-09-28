@@ -1,5 +1,8 @@
 package service;
 
+import dto.CarreraInscriptosDTO;
+import dto.ReporteCarreraDTO;
+import java.util.List;
 import entity.Carrera;
 import repository.CarreraRepository;
 
@@ -18,11 +21,13 @@ public class CarreraService {
 
     /**
      * Lee carreras.csv y guarda solo las carreras cuyo ID todavia no existe.
+     * 
      * @return cantidad de carreras incorporadas durante esta ejecucion.
      */
     public int cargarDesdeCSV() {
-        // Un arreglo permite incrementar el contador dentro de la lambda del lector CSV.
-        int[] cargadas = {0};
+        // Un arreglo permite incrementar el contador dentro de la lambda del lector
+        // CSV.
+        int[] cargadas = { 0 };
         CsvReader.leer("carreras.csv", 3, (linea, valores) -> {
             // El orden de columnas es: id_carrera, carrera, duracion.
             int id = Integer.parseInt(valores[0]);
@@ -32,5 +37,13 @@ public class CarreraService {
             }
         });
         return cargadas[0];
+    }
+
+    public List<CarreraInscriptosDTO> recuperarCarrerasConInscriptos() {
+        return repositorio.recuperarCarrerasConInscriptos();
+    }
+
+    public List<ReporteCarreraDTO> generarReporteCarreras() {
+        return repositorio.generarReporteCarreras();
     }
 }

@@ -21,6 +21,9 @@ public interface EstudianteCarreraRepository {
     /** Calcula el proximo ID que puede asignarse a una matricula nueva. */
     int siguienteId();
 
+    /** Permite saber si un estudiante ya esta matriculado en una carrera. */
+    boolean existeMatricula(int dni, int idCarrera);
+
     // Punto 2.b
     /** Punto 2.b: guarda una matricula ya validada por el servicio. */
     void matricularEstudiante(EstudianteCarrera estudianteCarrera);
@@ -29,6 +32,5 @@ public interface EstudianteCarreraRepository {
     /** Punto 2.g: filtra estudiantes por carrera y ciudad de residencia. */
     List<EstudianteDTO> recuperarEstudiantesPorCarreraYCiudad(
             int idCarrera,
-            String ciudad
-    );
+            String ciudad);
 }
