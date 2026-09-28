@@ -15,3 +15,9 @@ Las entidades se corresponden con los tres CSV de entrada:
 - EstudianteCarrera: id (PK), id_estudiante (FK), id_carrera (FK), inscripcion, graduacion, antiguedad
 
 Un estudiante puede cursar varias carreras y una carrera tiene varios estudiantes; EstudianteCarrera guarda la información de cada inscripción (año de inscripción, graduación y antigüedad).
+
+![Multiplicidad](multiplicidad_arqWeb2.jpeg) 
+
+Diagrama de Objetos: 
+
+![Diagrama_Objetos](diag_objetos_arqWeb2.jpeg) 
