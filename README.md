@@ -5,6 +5,7 @@ Trabajo práctico de Arquitectura Web que modela un registro de estudiantes y su
 ## Modelo de datos
 
 El diagrama entidad-relación:
+
 ![Diagrama entidad-relación](DER_arqWeb2.jpeg) 
 
 Las entidades se corresponden con los tres CSV de entrada:
